@@ -1,7 +1,10 @@
 export const Colors = {
+  primaryColor: '#3D3D3D',
   white: '#ffff',
+  buttonColor: '#E2E8F3',
+  lightblack: '#6b6b69',
   black: '#000000',
-
+  textGrey: '#2E3E5C',
   textLigtGrey: '#9FA5C0',
   borderColor: '#B6B5B5',
   grey: '#c9c9c9',

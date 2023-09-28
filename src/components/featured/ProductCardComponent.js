@@ -52,16 +52,18 @@ export default function ProductCardComponent(props) {
               shadowOpacity: 0.5,
               shadowRadius: 2,
               elevation: 10,
-              marginBottom: index === props.data.length - 1 ? normalize(45) : 0,
+              marginBottom: index === props.data.length - 1 ? normalize(80) : 0,
             }}>
             <View style={{flexDirection: 'row'}}>
               <Image
                 resizeMode="contain"
                 source={{uri: item.image}}
                 style={{
-                  height: normalize(100),
-                  width: normalize(100),
+                  height: normalize(80),
+                  width: normalize(80),
                   marginTop: normalize(20),
+                  marginLeft: normalize(10),
+                  marginRight: normalize(10),
                 }}
               />
               <View>
@@ -84,7 +86,6 @@ export default function ProductCardComponent(props) {
                     fontFamily: Fonts.DMSans_Regular,
                     fontSize: normalize(11.5),
                     width: normalize(160),
-                    // height: normalize(100),
                     color: Colors.black,
                     marginTop: normalize(10),
                   }}>
@@ -104,7 +105,6 @@ export default function ProductCardComponent(props) {
                     style={{
                       fontFamily: Fonts.DMSans_Bold,
                       fontSize: normalize(12),
-                      // width: normalize(160),
                       height: normalize(100),
                       color: Colors.blue,
                       marginLeft: normalize(2),
@@ -128,7 +128,7 @@ export default function ProductCardComponent(props) {
         justifyContent: 'center',
         height: normalize(100),
         width: normalize(150),
-        marginTop: normalize(20),
+        flex: 1,
       }}>
       <Text
         style={{

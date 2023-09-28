@@ -10,7 +10,7 @@ export default function Loader(props) {
       style={{
         flex: 1,
         position: 'absolute',
-        backgroundColor: 'rgba(61, 61, 61, 1)',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         zIndex: 10,
         top: 0,
         bottom: 0,
