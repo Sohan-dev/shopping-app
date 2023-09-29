@@ -1,16 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, TouchableOpacity, FlatList, View, Image} from 'react-native';
+import {
+  Text,
+  TouchableOpacity,
+  FlatList,
+  View,
+  Image,
+  Platform,
+} from 'react-native';
 import {Colors, Fonts} from '../../theme/theme';
 import normalize from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 
 export default function ProductCardComponent(props) {
-  function onRefreshList() {
-    if (props.onRefreshList) {
-      props.onRefreshList();
-    }
-  }
   function onPress(item) {
     if (props.onPress) {
       props.onPress(item);
@@ -30,8 +32,6 @@ export default function ProductCardComponent(props) {
         data={props.data}
         showsVerticalScrollIndicator={false}
         horizontal={false}
-        onRefresh={() => onRefreshList()}
-        refreshing={props.refreshing}
         renderItem={({item, index}) => (
           <TouchableOpacity
             onPress={() => {
@@ -52,7 +52,12 @@ export default function ProductCardComponent(props) {
               shadowOpacity: 0.5,
               shadowRadius: 2,
               elevation: 10,
-              marginBottom: index === props.data.length - 1 ? normalize(80) : 0,
+              marginBottom:
+                index === props.data.length - 1
+                  ? Platform.OS === 'ios'
+                    ? normalize(80)
+                    : normalize(50)
+                  : 0,
             }}>
             <View style={{flexDirection: 'row'}}>
               <Image
