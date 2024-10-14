@@ -9,6 +9,8 @@ import Login from '../screens/Auth/Login';
 import Splash from '../screens/Auth/Splash';
 
 import Home from '../screens/Home/Home';
+import Register from '../screens/Auth/Register';
+import {navigationRef} from '../utils/RootNavigation';
 
 const Stack = createStackNavigator();
 
@@ -19,11 +21,16 @@ export default function StackNavigator() {
     return <Splash />;
   } else {
     return TokenReducer.token === null ? (
-      <NavigationContainer>
+      <NavigationContainer ref={navigationRef}>
         <Stack.Navigator>
           <Stack.Screen
             name={'Login'}
             component={Login}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name={'Register'}
+            component={Register}
             options={{headerShown: false}}
           />
         </Stack.Navigator>

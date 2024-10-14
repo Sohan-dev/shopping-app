@@ -39,6 +39,30 @@ export const AUTH = {
     type: 'LOGIN_FAILURE',
     value: 'signinResponse',
   },
+  SIGNUP_REQUEST: {
+    type: 'SIGNUP_REQUEST',
+    value: 'signupResponse',
+  },
+  SIGNUP_SUCCESS: {
+    type: 'SIGNUP_SUCCESS',
+    value: 'signupResponse',
+  },
+  SIGNUP_FAILURE: {
+    type: 'SIGNUP_FAILURE',
+    value: 'signupResponse',
+  },
+  UPLOAD_REQUEST: {
+    type: 'UPLOAD_REQUEST',
+    value: 'uploadResponse',
+  },
+  UPLOAD_SUCCESS: {
+    type: 'UPLOAD_SUCCESS',
+    value: 'uploadResponse',
+  },
+  UPLOAD_FAILURE: {
+    type: 'UPLOAD_FAILURE',
+    value: 'uploadResponse',
+  },
 };
 
 export const HOME = {

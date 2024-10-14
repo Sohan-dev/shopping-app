@@ -1,5 +1,5 @@
 export const Colors = {
-  primaryColor: '#3D3D3D',
+  primaryColor: '#f3f8fb',
   white: '#ffff',
   buttonColor: '#E2E8F3',
   lightblack: '#6b6b69',
@@ -15,6 +15,8 @@ export const Colors = {
 export const Icons = {
   eye_open: require('../assets/icons/eye_open.png'),
   eye_close: require('../assets/icons/eye_close.png'),
+  back: require('../assets/icons/back.png'),
+  imagePlace: require('../assets/icons/image.png'),
 };
 
 export const Fonts = {

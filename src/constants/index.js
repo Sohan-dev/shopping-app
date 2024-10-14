@@ -1,5 +1,6 @@
 export default {
-  BASE_URL: 'https://fakestoreapi.com',
+  // BASE_URL: 'https://fakestoreapi.com',
+  BASE_URL: 'http://192.168.31.206:3000/api',
 
   TOKEN: 'TOKEN',
 

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
 import {View, Image, TextInput, Platform, TouchableOpacity} from 'react-native';
-import {Colors, Icons} from '../../theme/theme';
+import {Colors, Fonts, Icons} from '../../theme/theme';
 import normalise from '../../utils/Dimen';
 import PropTypes from 'prop-types';
 
@@ -73,6 +73,7 @@ export default function TextInputComponent(props) {
             fontSize: normalise(12),
             alignSelf: props.alignSelfInput,
             marginLeft: props.marginLeftInput,
+            fontFamily: Fonts.DMSans_Medium,
           }}
           ref={props.ref}
           secureTextEntry={visible ? false : props.isSecure}

@@ -153,11 +153,12 @@ export function* POST_FORM(
   HEADER = form_data,
   TOKEN,
 ) {
+  console.log(URL, PAYLOAD);
   try {
-    if (!TOKEN) {
-      TOKEN = yield call(getToken);
-    }
-    let response = yield call(postApi, URL, PAYLOAD, TOKEN, HEADER);
+    // if (!TOKEN) {
+    //   TOKEN = yield call(getToken);
+    // }
+    let response = yield call(postApi, URL, PAYLOAD, '', HEADER);
     console.log(response, 'THE POST SET');
     if (response?.status === 200 || response?.status === 201) {
       yield put({

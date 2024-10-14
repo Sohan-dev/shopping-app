@@ -20,6 +20,7 @@ import Button from '../../components/shared/Button';
 import TextInputComponent from '../../components/shared/TextInput';
 import constants from '../../constants';
 import {getSignIn} from '../../redux/action/AuthAction';
+import {navigate} from '../../utils/RootNavigation';
 
 export default function Login(props) {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ export default function Login(props) {
         <Text
           style={{
             fontSize: normalize(36),
-            color: Colors.white,
+            color: Colors.black,
             textAlign: 'center',
             fontFamily: Fonts.DMSans_Bold,
           }}>
@@ -85,7 +86,7 @@ export default function Login(props) {
           width={'90%'}
           height={normalize(40)}
           placeholder={'Email'}
-          placeholderTextColor={Colors.grey}
+          placeholderTextColor={Colors.lightblack}
           value={userName}
           onChangeText={data => {
             setUserName(data);
@@ -96,7 +97,7 @@ export default function Login(props) {
           width={'90%'}
           height={normalize(40)}
           placeholder={'Password'}
-          placeholderTextColor={Colors.grey}
+          placeholderTextColor={Colors.lightblack}
           isSecure={true}
           eye={true}
           value={password}
@@ -107,7 +108,7 @@ export default function Login(props) {
 
         <Button
           title={'Login'}
-          backgroundColor={Colors.white}
+          backgroundColor={Colors.buttonColor}
           textColor={Colors.black}
           width={'90%'}
           alignSelf={'center'}
@@ -115,6 +116,37 @@ export default function Login(props) {
           marginTop={normalize(20)}
           onPress={() => loginUser()}
         />
+
+        <View
+          style={{
+            flexDirection: 'row',
+            alignSelf: 'center',
+            marginTop: normalize(20),
+          }}>
+          <Text
+            style={{
+              color: Colors.black,
+              fontFamily: Fonts.DMSans_Medium,
+              fontSize: 15,
+            }}>
+            Don't have account?
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              // props.navigation.navigate('Register');
+              navigate('Register');
+            }}>
+            <Text
+              style={{
+                color: Colors.blue,
+                fontFamily: Fonts.DMSans_Medium,
+                fontSize: 15,
+              }}>
+              {' '}
+              Register
+            </Text>
+          </TouchableOpacity>
+        </View>
 
         {/* <View style={{marginTop: normalize(20)}}>
           <TouchableOpacity

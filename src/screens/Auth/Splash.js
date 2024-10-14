@@ -20,7 +20,7 @@ export default function Splash(props) {
         <Text
           style={{
             fontSize: normalize(32),
-            color: Colors.white,
+            color: Colors.black,
             textAlign: 'center',
             fontFamily: Fonts.DMSans_Bold,
           }}>
