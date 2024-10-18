@@ -24,7 +24,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import Loader from '../../utils/Loader';
 import {AUTH} from '../../redux/store/TypeConstants';
 import Status from '../../utils/Status';
-import ImagePicker from 'react-native-image-crop-picker';
+// import ImagePicker from 'react-native-image-crop-picker';
+import * as ImagePicker from 'react-native-image-picker';
 import axios from 'axios';
 
 export default function Register() {
@@ -32,6 +33,7 @@ export default function Register() {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [uploadImageURL, setUploadImageURL] = useState('');
   const [pincode, setPinCode] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
@@ -60,6 +62,10 @@ export default function Register() {
       showErrorAlert('Please enter first name');
     } else if (!email.match(constants.VALID_EMAIL_REGEXP)) {
       showErrorAlert('Please enter valid email');
+    } else if (!password) {
+      showErrorAlert('Please enter password');
+    } else if (!uploadImage) {
+      showErrorAlert('Please upload an image');
     }
     // else if (!password) {
     //   showErrorAlert('Please enter password');
@@ -71,7 +77,8 @@ export default function Register() {
         firstName: firstName,
         lastName: lastName,
         email: email,
-        image: '',
+        image: uploadImageURL,
+        password: password,
         address: {
           name: firstName + lastName,
           pincode: pincode,
@@ -88,35 +95,21 @@ export default function Register() {
     }
   };
 
-  const extractFilename = filePath => {
-    return filePath.split(Platform.OS === 'ios' ? '\\' : '/').pop();
-  };
-
   const uploadFile = async formData => {
-    console.log('inside uploadFile');
-    // axios
-    //   .post('http://192.168.31.206:3000/api/upload', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data',
-    //     },
-    //   })
-    //   .then(response => {
-    //     console.log(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error(error);
-    //   });
+    console.log('inside uploadFile', formData);
+
     axios({
       method: 'POST',
       url: 'http://192.168.31.206:3000/api/upload',
       data: formData,
       headers: {
-        Accept: 'application/json',
         'Content-Type': 'multipart/form-data',
       },
     })
       .then(function (response) {
         //handle success
+        showErrorAlert(response?.data?.message);
+        setUploadImageURL(response?.data?.imageURL);
         console.log(response);
       })
       .catch(function (response) {
@@ -125,28 +118,65 @@ export default function Register() {
       });
   };
 
-  const openPicker = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-      let obj = {
-        path: image?.path,
-        mime: image?.mime,
-        filename: extractFilename(image.path),
-      };
-      const formData = new FormData();
+  // const openPicker = () => {
+  //   ImagePicker.openPicker({
+  //     width: 300,
+  //     height: 400,
+  //     cropping: true,
+  //   }).then(image => {
+  //     let obj = {
+  //       path: image?.path,
+  //       mime: image?.mime,
+  //       filename: extractFilename(image.path),
+  //     };
+  //     const formData = new FormData();
 
-      formData.append('filename', extractFilename(image.path));
-      formData.append('mime', image.mime);
-      formData.append('path', image.path);
+  //     // formData.append('filename', extractFilename(image.path));
+  //     // formData.append('file', {
+  //     //   path: image?.path,
+  //     //   mime: image?.mime,
+  //     //   filename: extractFilename(image.path),
+  //     // });
+  //     // formData.append('mime', image.mime);
+  //     // formData.append('path', image.path);
+  //     formData.append('file', {
+  //       path: image?.path,
+  //       mime: image?.mime,
+  //       originalname: extractFilename(image.path),
+  //     });
 
-      uploadFile(formData);
+  //     uploadFile(formData);
 
-      //   dispatch(uploadImage(formData));
-      setImages(obj);
-      //   console.log(obj);
+  //     //   dispatch(uploadImage(formData));
+  //     setImages(obj);
+  //   });
+  // };
+
+  const openImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      includeBase64: false,
+      maxHeight: 2000,
+      maxWidth: 2000,
+    };
+
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image picker error: ', response.error);
+      } else {
+        let imageUri = response.uri || response.assets?.[0]?.uri;
+        console.log(response?.assets?.[0]);
+        setImages(imageUri);
+        const formData = new FormData();
+        formData.append('file', {
+          uri: imageUri,
+          type: response.assets?.[0]?.type,
+          name: response.assets?.[0]?.fileName,
+        });
+        uploadFile(formData);
+      }
     });
   };
 
@@ -305,6 +335,20 @@ export default function Register() {
                 setCountry(data);
               }}
             />
+            <TextInputComponent
+              marginTop={normalize(20)}
+              width={'90%'}
+              height={normalize(40)}
+              placeholder={'Password'}
+              inputTextColor={Colors.black}
+              placeholderTextColor={Colors.lightblack}
+              isSecure={true}
+              eye={true}
+              value={password}
+              onChangeText={data => {
+                setPassword(data);
+              }}
+            />
             {images && (
               <TouchableOpacity
                 onPress={() => setImages(null)}
@@ -341,7 +385,7 @@ export default function Register() {
                 justifyContent: 'center',
               }}>
               <TouchableOpacity
-                onPress={() => openPicker()}
+                onPress={() => openImagePicker()}
                 style={{
                   //   backgroundColor: 'green',
                   height: '100%',
@@ -349,7 +393,7 @@ export default function Register() {
                   borderRadius: 10,
                 }}>
                 <Image
-                  source={images ? {uri: images?.path} : Icons.imagePlace}
+                  source={images ? {uri: images} : Icons.imagePlace}
                   resizeMode="cover"
                   style={{width: '100%', height: '100%', borderRadius: 10}}
                 />
@@ -357,7 +401,7 @@ export default function Register() {
             </View>
 
             <Button
-              title={'Login'}
+              title={'Sign Up'}
               backgroundColor={Colors.buttonColor}
               textColor={Colors.black}
               width={'90%'}
